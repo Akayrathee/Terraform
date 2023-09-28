@@ -32,7 +32,7 @@ resource "aws_security_group" "allow_tls" {
 resource "aws_instance" "workstation" {
   ami           = "ami-053b0d53c279acc90"
   instance_type = "t3.medium"
-  security_groups = ["${aws_security_group.allow_tls.id}"]
+  vpc_security_group_ids = ["sg-0678117d6b79e2eed"]   # Here remember the security groups is not working fine, and that's why we want to use the vpc_security_group_ids
   tags = {
     Name = "Workstation"
   }
