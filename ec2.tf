@@ -8,9 +8,10 @@ provider "aws" {
 
 
 # This is for the creation of the security group
-resource "aws_security_group" "allow_tls" {
+resource "aws_security_group" "allow_ssh" {
   name        = "allow_SSH"
   description = "Allow SSH inbound traffic"
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     description      = "TLS from VPC"
@@ -33,11 +34,17 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
+# Data source to get the default VPC ID
+data "aws_vpc" "default" {
+  default = true
+}
+
 # This is for the creation of the instance with a script that going to install Jenkins, Terraform and AWS
 resource "aws_instance" "workstation" {
   ami           = "ami-053b0d53c279acc90"
   instance_type = "t3.medium"
-  vpc_security_group_ids = ["sg-0678117d6b79e2eed"]   # Here remember the security groups is not working fine, and that's why we want to use the vpc_security_group_ids
+  security_groups = [aws_security_group.allow_ssh.name]
+  # vpc_security_group_ids = ["sg-011bd9eb154836b16"]   # Here remember the security groups is not working fine, and that's why we want to use the vpc_security_group_ids
   tags = {
     Name = "Workstation"
   }
