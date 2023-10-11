@@ -13,3 +13,9 @@ resource "aws_wafv2_web_acl" "webacl1" {
     sampled_requests_enabled   = false
   }
 }
+
+
+resource "aws_wafv2_web_acl_association" "webacl1association" {
+  resource_arn = aws_alb.WAFalb.arn
+  web_acl_arn  = aws_wafv2_web_acl.webacl1.arn
+}
