@@ -1,12 +1,13 @@
 resource "aws_wafv2_web_acl" "webacl1" {
-  name        = "AWSWAF1"
-  description = "AWS WAF 1 creted using terrform for testing."
+  name        = "Domo-Demo1-WAF"
+  description = "WAF used on Demo1 ALB"
   scope       = "REGIONAL"
 
   default_action {
     allow {}
   }
 
+# For evry rule you need to add another rule block
   rule {
     name     = "rule-1"
     priority = 1
